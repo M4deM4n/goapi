@@ -15,7 +15,7 @@ func main() {
 
 	http.HandleFunc("/", homeHandler)
 	log.Println("Attempting to listen on port ", port)
-	err := http.ListenAndServe(":80", nil)
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
