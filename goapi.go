@@ -11,8 +11,11 @@ func homeHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	port := 80
+
 	http.HandleFunc("/", homeHandler)
-	err := http.ListenAndServe("localhost:80", nil)
+	log.Println("Attempting to listen on port ", port)
+	err := http.ListenAndServe(":80", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
