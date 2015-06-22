@@ -30,7 +30,6 @@ start() {
 	fi
 }
 
-
 stop() {
 	checkpid
 	local STATUS=$?
@@ -46,28 +45,19 @@ stop() {
 	fi
 }
 
-
 checkpid() {
     local STATUS=9
     
-    if [ -f $APP_PID ] ;
-	then
-		#echo "Is Running if you can see next line with $APP_NAME"
+    if [ -f $APP_PID ]; then
 		ps -Fp `cat $APP_PID` | grep $APP_FILENAME > $TMP_FILE
-		if [ -f $TMP_FILE -a -s $TMP_FILE ] ;
-			then
-				STATUS=0
-				#"Is Running (PID `cat $APP_PID`)"
-			else
-				STATUS=2
-				#"Stopped incorrectly"
-			fi
-		
-		## Clean after yourself	
+		if [ -f $TMP_FILE -a -s $TMP_FILE ]; then
+			STATUS=0
+		else
+			STATUS=2
+		fi
 		rm -f $TMP_FILE
 	else
 		STATUS=1
-		#"Not Running"
 	fi
 	
 	return $STATUS
