@@ -7,15 +7,24 @@ APP_PATH="/home/ec2-user/go/src/github.com/m4dem4n/goapi"
 
 TMP_FILE="/tmp/status_$APP_FILENAME"
 
+COLOR_GREEN="\\033[1;32m"
+COLOR_RED="\\033[1;31m"
+COLOR_DEFAULT="\\033[0;39m"
+
+S_STATUS[0]="Running"
+S_STATUS[1]="Not Running"
+S_STATUS[2]="Stopped incorrectly"
+S_STATUS[9]="Unknown"
+
 start() {
 	checkpid
 	STATUS=$?
 	echo -n "Starting $APP_NAME: "
-	
+
 	if [ $STATUS -ne 0 ]; then
 		nohup $APP_PATH/$APP_FILENAME > $APP_PATH/$APP_FILENAME.out 2> $APP_PATH/$APP_FILENAME.err < /dev/null &
 		echo $! > $APP_PID
-		echo -e "[\\033[1;32mSuccess\\033[0;39m]"
+		echo -e "[$COLOR_GREENSuccess$COLOR_DEFAULT]"
 	else
 		echo -e "[\\033[1;31mFailure\\033[0;39m]"
 	fi
