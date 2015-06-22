@@ -12,7 +12,7 @@ start() {
 	STATUS=$?
 	if [ $STATUS -ne 0 ]; then
 		echo "Starting $APP_NAME..."
-		nohup $APP_PATH/$APP_FILENAME > $APP_PATH/$APP_FILENAME.out 2> $APP_PATH/APP_FILENAME.err < /dev/null &
+		nohup $APP_PATH/$APP_FILENAME > $APP_PATH/$APP_FILENAME.out 2> $APP_PATH/$APP_FILENAME.err < /dev/null &
 		echo PID $!
 		echo $! > $APP_PID
 
@@ -43,7 +43,7 @@ checkpid() {
     if [ -f $APP_PID ] ;
 	then
 		#echo "Is Running if you can see next line with $APP_NAME"
-		ps -Fp `cat $APP_PID` | grep $APP_FILE > $TMP_FILE
+		ps -Fp `cat $APP_PID` | grep $APP_FILENAME > $TMP_FILE
 		if [ -f $TMP_FILE -a -s $TMP_FILE ] ;
 			then
 				STATUS=0
