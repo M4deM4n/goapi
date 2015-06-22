@@ -3,7 +3,7 @@
 APP_NAME="GoAPI"
 APP_FILENAME="goapi"
 APP_PID="/var/run/$APP_FILENAME.pid"
-APP_PATH="~/go/src/github.com/m4dem4n/goapi"
+APP_PATH="/home/ec2-user/go/src/github.com/m4dem4n/goapi"
 
 TMP_FILE="/tmp/status_$APP_FILENAME"
 
