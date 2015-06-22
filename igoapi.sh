@@ -7,9 +7,9 @@ APP_PATH="/home/ec2-user/go/src/github.com/m4dem4n/goapi"
 
 TMP_FILE="/tmp/status_$APP_FILENAME"
 
-local LGREEN="\[\033[1;32m\]"
+LGREEN="\[\033[1;32m\]"
 COLOR_RED="\\033[1;31m"
-local LGREY="\[\033[0;39m\]"
+LGREY="\[\033[0;39m\]"
 
 S_STATUS[0]="Running"
 S_STATUS[1]="Not Running"
