@@ -7,6 +7,9 @@ APP_PATH="/home/ec2-user/go/src/github.com/m4dem4n/goapi"
 
 TMP_FILE="/tmp/status_$APP_FILENAME"
 
+SUCCESS="[\\033[1;32mSuccess\\033[0m]"
+FAILURE="[\\033[1;31mFailure\\033[0;39m]"
+
 S_STATUS[0]="\\033[1;32mRunning\\033[0m"
 S_STATUS[1]="\\033[1;31mNot Running\\033[0m"
 S_STATUS[2]="\\033[1;31mStopped incorrectly\\033[0m"
@@ -20,9 +23,10 @@ start() {
 	if [ $STATUS -ne 0 ]; then
 		nohup $APP_PATH/$APP_FILENAME > $APP_PATH/$APP_FILENAME.out 2> $APP_PATH/$APP_FILENAME.err < /dev/null &
 		echo $! > $APP_PID
-		echo -e "[\\033[1;32mSuccess\\033[0m]"
+		echo -e $SUCCESS
 	else
-		echo -e "[\\033[1;31mFailure\\033[0;39m]"
+		echo -e $FAILURE
+		echo "Check status for details."
 	fi
 }
 
@@ -35,9 +39,10 @@ stop() {
 	if [ $STATUS -eq 0 ]; then
 		kill `cat $APP_PID`
 		rm $APP_PID
-		echo -e "[\\033[1;32mSuccess\\033[0m]"
+		echo -e $SUCCESS
 	else
-		echo -e "[\\033[1;31mFailure\\033[0m]"
+		echo -e $FAILURE
+		echo "Check status for details."
 	fi
 }
 
@@ -73,7 +78,7 @@ checkstatus() {
 	local CODE=$?
 
 	echo -n "$APP_NAME Status: "
-	echo -e S_STATUS[CODE]
+	echo -e ${S_STATUS[CODE]}
 }
 
 case "$1" in
@@ -91,7 +96,7 @@ case "$1" in
 		checkstatus
 		;;
 	*)
-		echo "Usage: $0 { start | stop | restart }"
+		echo "Usage: $0 { start | stop | restart | status }"
 		exit 1
 		;;
 esac
