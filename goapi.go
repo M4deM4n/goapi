@@ -3,7 +3,7 @@ package main
 import (
 	"crypto/md5"
 	"fmt"
-	// "log"
+	"log"
 	"math/rand"
 	"net/http"
 	"time"
@@ -64,9 +64,9 @@ func main() {
 	http.HandleFunc("/md5", md5Handler)
 	http.HandleFunc("/eightball", eightBallHandler)
 
-	// log.Println("Attempting to listen on port 8080")
+	log.Println("Attempting to listen on port 8080")
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
-		// log.Fatal(err)
+		log.Fatal(err)
 	}
 }
