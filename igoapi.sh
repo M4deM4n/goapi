@@ -10,10 +10,10 @@ TMP_FILE="/tmp/status_$APP_FILENAME"
 start() {
 	checkpid
 	STATUS=$?
+	echo -n "Starting $APP_NAME: "
+	
 	if [ $STATUS -ne 0 ]; then
-		echo -n "Starting $APP_NAME: "
 		nohup $APP_PATH/$APP_FILENAME > $APP_PATH/$APP_FILENAME.out 2> $APP_PATH/$APP_FILENAME.err < /dev/null &
-		// echo PID $!
 		echo $! > $APP_PID
 		echo -e "[\\033[1;32mSuccess\\033[0;39m]"
 	else
@@ -25,8 +25,9 @@ start() {
 stop() {
 	checkpid
 	STATUS=$?
+	echo -n "Stopping $APP_NAME: "
+
 	if [ $STATUS -eq 0 ]; then
-		echo -n "Stopping $APP_NAME: "
 		kill `cat $APP_PID`
 		rm $APP_PID
 		echo -e "[\\033[1;32mSuccess\\033[0;39m]"
