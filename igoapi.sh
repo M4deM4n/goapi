@@ -11,14 +11,13 @@ start() {
 	checkpid
 	STATUS=$?
 	if [ $STATUS -ne 0 ]; then
-		echo "Starting $APP_NAME..."
+		echo -n "Starting $APP_NAME: "
 		nohup $APP_PATH/$APP_FILENAME > $APP_PATH/$APP_FILENAME.out 2> $APP_PATH/$APP_FILENAME.err < /dev/null &
-		echo PID $!
+		// echo PID $!
 		echo $! > $APP_PID
-
-		echo "Done"
+		echo -e "[\\033[1;32mSuccess\\033[0;39m]"
 	else
-		echo "$APP_NAME Is Already Running"
+		echo -e "[\\033[1;31mFailure\\033[0;39m]"
 	fi
 }
 
@@ -27,12 +26,12 @@ stop() {
 	checkpid
 	STATUS=$?
 	if [ $STATUS -eq 0 ]; then
-		echo "Stopping $APP_NAME..."
+		echo -n "Stopping $APP_NAME: "
 		kill `cat $APP_PID`
 		rm $APP_PID
-		echo "Done"
+		echo -e "[\\033[1;32mSuccess\\033[0;39m]"
 	else
-		echo "$APP_NAME - Already Killed"
+		echo -e "[\\033[1;31mFailure\\033[0;39m]"
 	fi
 }
 
