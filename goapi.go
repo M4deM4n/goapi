@@ -2,7 +2,9 @@ package main
 
 import (
 	"crypto/md5"
+	"crypto/sha1"
 	"fmt"
+	"io"
 	"log"
 	"math/rand"
 	"net/http"
@@ -50,7 +52,16 @@ func md5Handler(w http.ResponseWriter, req *http.Request) {
 
 func sha1Handler(w http.ResponseWriter, req *http.Request) {
 	//data := []byte(req.URL.Query()["v"][0])
+	parms := req.URL.Query()
+	_, ok := parms["v"]
 
+	if ok {
+		h := sha1.New()
+		io.WriteString(h, req.URL.Query()["v"][0])
+		fmt.Fprintf(w, "%x", h.Sum(nil))
+	} else {
+		fmt.Fprintln(w, "Add query string '?v=hashThis' to url.")
+	}
 }
 
 func eightBallHandler(w http.ResponseWriter, req *http.Request) {
@@ -62,6 +73,7 @@ func eightBallHandler(w http.ResponseWriter, req *http.Request) {
 func main() {
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/md5", md5Handler)
+	http.HandleFunc("/sha1", sha1Handler)
 	http.HandleFunc("/eightball", eightBallHandler)
 
 	log.Println("Attempting to listen on port 8080")
