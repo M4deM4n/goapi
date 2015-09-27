@@ -9,9 +9,11 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
+
+	"golang.org/x/net/websocket"
 )
 
-var eightBallResponse []string = []string{
+var eightBallResponse = []string{
 	"It is certain",
 	"It is decidedly so",
 	"Without a doubt",
@@ -32,6 +34,10 @@ var eightBallResponse []string = []string{
 	"My sources say no",
 	"Outlook not so good",
 	"Very doubtful",
+}
+
+func echoHandler(ws *websocket.Conn) {
+	io.Copy(ws, ws)
 }
 
 func homeHandler(w http.ResponseWriter, req *http.Request) {
@@ -72,6 +78,7 @@ func eightBallHandler(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	http.HandleFunc("/", homeHandler)
+	http.Handle("/echo", websocket.Handler(echoHandler))
 	http.HandleFunc("/md5", md5Handler)
 	http.HandleFunc("/sha1", sha1Handler)
 	http.HandleFunc("/eightball", eightBallHandler)
