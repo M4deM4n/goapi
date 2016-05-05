@@ -41,6 +41,8 @@ func echoHandler(ws *websocket.Conn) {
 }
 
 func homeHandler(w http.ResponseWriter, req *http.Request) {
+	//fmt.Printf("%+v\n", req)
+	fmt.Printf("%v %v %v\nRemoteAddr:%v\nUser-Agent:%v\nAccept:%v\n", req.Method, req.URL, req.Proto, req.RemoteAddr, req.Header["User-Agent"], req.Header["Accept"])
 	fmt.Fprint(w, "Welcome to my Go API.")
 }
 
@@ -76,12 +78,28 @@ func eightBallHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintln(w, eightBallResponse[rand.Intn(l)])
 }
 
+func testerHandler(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprintln(w, "You've hit the test endpoint.")
+}
+
+func fakeSoap(w http.ResponseWriter, req *http.Request) {
+	parms := req.URL.Query()
+	_, ok := parms["wsdl"]
+	if ok {
+		fmt.Fprintln(w, "This would be the actual WSDL XML")
+	} else {
+		fmt.Fprintln(w, "This would be that SOAP usage page.")
+	}
+}
+
 func main() {
 	http.HandleFunc("/", homeHandler)
 	http.Handle("/echo", websocket.Handler(echoHandler))
 	http.HandleFunc("/md5", md5Handler)
 	http.HandleFunc("/sha1", sha1Handler)
 	http.HandleFunc("/eightball", eightBallHandler)
+	http.HandleFunc("/tester", testerHandler)
+	http.HandleFunc("/SomeWare/SomeService.svc", fakeSoap)
 
 	log.Println("Attempting to listen on port 8080")
 	err := http.ListenAndServe(":8080", nil)
